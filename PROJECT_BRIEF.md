@@ -1,8 +1,204 @@
 # THE PROJECT BRIEF #
 
 # Project Name #
+ai powered-financial-advisory-platform
 
 # Product Description / Presentation #
+
+
+powered-financial-advisory-platform
+
+FinGenius — AI-Powered Financial Advisory Platform
+Tagline: Your intelligent partner for wealth creation and financial freedom.
+________________________________________
+1) Product Description / Presentation
+Executive Summary
+FinGenius is a next generation, AI driven financial advisory and wealth management platform. It empowers individuals, advisors, and institutions with real time investment intelligence, personalized financial planning, and automated wealth optimization. By combining RAG grounded financial insights, portfolio simulation, and agent based financial workflows, FinGenius offers transparent recommendations, risk aware investment strategies, and scalable portfolio automation.
+Business Outcomes:
+•	Improve investment returns by 15–25% through AI driven optimization.
+•	Reduce manual advisory workload by 60%.
+•	Deliver personalized financial strategies at scale.
+•	Enhance compliance and transparency with explainable AI recommendations.
+________________________________________
+Core Capabilities
+•	AI Financial Planner: Automated financial plans for retirement, savings, tax optimization, and insurance coverage.
+•	Intelligent Portfolio Manager: Real time rebalancing, diversification checks, Monte Carlo risk simulation.
+•	Market Intelligence Copilot: RAG powered financial Q&A, news/event impact summaries, sector insights.
+•	Automated Investment Optimization: Suggests buy/sell/hold actions with evidence and regulatory compliance checks.
+•	Wealth Dashboard: Unified view of assets, liabilities, accounts, and investments with predictive cash flow modeling.
+•	Advisory CRM: Client profiles, KYC/AML compliance tracking, document vault.
+•	Regulatory Guardrails: SEC/FINRA/ESMA frameworks baked in; explainability, suitability checks.
+•	Multi Channel Notifications: Alerts via email, SMS, and in app for market shifts, portfolio risk, and upcoming tasks.
+________________________________________
+Functional Modules (User Journeys)
+1.	Onboarding & KYC: Digital identity verification, risk tolerance survey, investment goals capture.
+2.	Portfolio Setup: Asset import, account aggregation (Plaid/Yodlee), baseline allocations.
+3.	Analysis & Simulation: Risk analysis, Monte Carlo simulations, tax optimization.
+4.	Advisory & Execution: AI driven advice, execution hooks (brokers, custodians), compliance logging.
+5.	Monitoring & Alerts: Live tracking of portfolio drift, market events, compliance warnings.
+6.	Client Engagement: Reports, goal updates, financial nudges, advisor chat.
+________________________________________
+Non Functional Requirements
+•	Performance: Portfolio refresh P95 < 500ms (cache hit), streaming updates under 2s.
+•	Scale: Millions of accounts; 10,000+ concurrent advisor/clients.
+•	Reliability: 99.9% uptime; fallbacks to read only mode if AI is unavailable.
+•	Security: PCI DSS, SOC2 Type II, GDPR; encryption at rest & in transit; RBAC.
+•	Accessibility: WCAG 2.1 AA; mobile first responsive design.
+________________________________________
+Frontend (Next.js 14 + React 18 + TypeScript + Tailwind)
+•	Design System: Tailwind tokens for financial branding (greens, navy, neutral grays).
+•	Key Screens:
+o	Wealth Dashboard (net worth, allocation charts, goals tracker).
+o	Portfolio Manager (holdings, rebalancing actions, AI suggestions).
+o	Market Intelligence Console (news impact, AI Q&A with citations).
+o	Advisor CRM (client profile, KYC, documents).
+o	Compliance & Reporting (audit logs, suitability checks, portfolio history).
+•	Features:
+o	Dark/light mode toggle.
+o	WebSocket driven real time portfolio updates.
+o	Data visualizations (Recharts/D3 for risk, growth, allocations).
+o	Error tolerant UX (graceful retries, fallback messaging).
+________________________________________
+Backend (FastAPI + Python 3.11 + Async SQLAlchemy 2.0)
+•	Auth & Security: JWT, SSO (SAML/OIDC), MFA, RBAC.
+•	Core Services:
+o	Accounts & KYC
+o	Assets, portfolios, transactions
+o	Simulation engine (Monte Carlo, VaR, Sharpe ratios)
+o	Market data ingestion (APIs: Bloomberg, Alpha Vantage, Yahoo Finance)
+o	Compliance checks engine (regulatory rules, suitability constraints)
+•	Integrations:
+o	Broker APIs (Robinhood, Schwab, Fidelity, Vanguard)
+o	Plaid/Yodlee for account aggregation
+o	Cloud storage (S3/GCS) for documents
+o	Email/SMS providers (SES/Twilio)
+•	Observability: OpenTelemetry, Prometheus metrics, structured logs.
+________________________________________
+AI Orchestration & Retrieval
+•	Chosen Stack: LangChain for retrievers, financial data tools, and reasoning chains; RAG over financial documents, market data, and regulations.
+•	Models: OpenAI GPT 4 for synthesis & portfolio optimization; Claude for long form analysis, compliance reasoning.
+•	RAG Sources: Market research, regulations (SEC filings, MiFID, ESMA docs), company filings, analyst reports.
+•	Features:
+o	Evidence linked AI recommendations (e.g., “Sell Tesla: Q3 10 K revenue miss”).
+o	Monte Carlo + AI reasoning hybrid for risk explanations.
+o	“Cite or decline” guardrail policy.
+________________________________________
+Data Model (selected tables)
+•	users, advisors, clients
+•	accounts(id, user_id, type, provider, balance)
+•	portfolios(id, user_id, allocations_json, fit_score, risk_profile)
+•	transactions(id, account_id, type, amount, security, date)
+•	simulations(id, portfolio_id, method, result_json)
+•	advice_logs(id, portfolio_id, recommendation, evidence_json, created_at)
+•	documents(id, client_id, type, url, metadata)
+•	compliance_events(id, user_id, rule_id, outcome, evidence)
+________________________________________
+API Surface (sample)
+REST
+•	POST /auth/login, POST /auth/refresh
+•	POST /portfolios, GET /portfolios/{id}
+•	POST /analyze/{portfolio_id} → returns risk metrics + AI insights
+•	POST /advise/{portfolio_id} → returns buy/sell/hold recs + citations
+•	POST /simulate/{portfolio_id} → Monte Carlo simulation
+•	POST /documents/upload
+•	GET /compliance/{portfolio_id} → logs & suitability checks
+WebSockets
+•	/ws/portfolio/{user_id} (real time portfolio updates)
+•	/ws/chat/{user_id} (AI Q&A streaming)
+________________________________________
+Security & Compliance
+•	Compliance first: KYC/AML, GDPR/CCPA, FINRA/SEC logging.
+•	Data Vaults: PII tokenization; consent & audit logs.
+•	Secret Hygiene: env vars only; rotation/expiry; provider specific scopes.
+•	Controls: rate limiting, input validation, suspicious activity monitoring.
+________________________________________
+Deployment & Scaling
+•	Frontend: Vercel (ISR, edge caching).
+•	Backend: Render autoscaling; workers for ingestion/simulations.
+•	DB: Postgres w/ pgvector; PITR; encrypted storage.
+•	Cache/Queue: Redis for sessions, rate limiting, job queues.
+Env Vars (excerpt)
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+DATABASE_URL=
+REDIS_URL=
+JWT_SECRET=
+SMTP_URL=
+BROKER_API_KEY=
+ACCOUNT_AGGREGATOR_KEY=
+ALLOWED_ORIGINS=
+________________________________________
+Success Metrics
+•	Portfolio analysis latency < 2s.
+•	Recommendation accuracy ≥ 85% vs benchmark.
+•	Compliance rule coverage ≥ 95%.
+•	Uptime 99.9%; Lighthouse ≥ 95; test coverage >90%.
+________________________________________
+2) Framework Choice
+LangChain + RAG are chosen to provide flexible retrievers, tool orchestration for financial APIs, and regulatory document grounding. LangChain is better suited than LangGraph for on demand reasoning chains (analysis, optimization, compliance checks). RAG ensures evidence anchored, auditable financial insights.
+________________________________________
+3) Dev Team Brief
+Goals
+Build a scalable financial advisory platform that automates personalized planning and investment optimization while meeting compliance standards.
+Deliverables
+1.	Next.js 14 frontend with Tailwind + TypeScript.
+2.	FastAPI backend with async SQLAlchemy 2.0, JWT, MFA.
+3.	PostgreSQL schema with pgvector + Redis cache/queue.
+4.	LangChain orchestration with RAG.
+5.	Real time WebSockets for portfolio updates.
+6.	Broker + aggregator + email/SMS integrations.
+7.	CI/CD, tests (unit/integration/e2e), OpenAPI docs.
+8.	Deploy configs for Vercel + Render.
+Milestones
+•	M1 (Weeks 1–2): Repo setup, auth + KYC, basic dashboard.
+•	M2 (Weeks 3–4): Portfolio ingestion, analysis endpoints, RAG integration.
+•	M3 (Weeks 5–6): AI advisory + compliance guardrails, portfolio simulation.
+•	M4 (Weeks 7–8): Notifications, broker execution hooks, load testing, GA.
+Definition of Done
+•	90% test coverage, P95 < 2s response time.
+•	AI recs evidence linked and logged.
+•	All compliance checks auditable.
+•	Frontend Lighthouse ≥ 95; WCAG 2.1 AA compliance.
+Coding Standards
+•	Ruff/Black/mypy + eslint/prettier.
+•	Pre commit hooks, type safe contracts.
+•	Feature flags for risky features.
+Repo Structure
+/apps
+  /web (Next.js)
+  /api (FastAPI)
+/packages
+  /ui (tailwind components)
+  /lib (shared types, clients)
+/infra (IaC, configs)
+/tests
+________________________________________
+Critical Prompts for Claude (Finance)
+Prompt 1 — Project Setup & Architecture
+"Create the project structure and architecture for FinGenius: Next.js 14 + TS + Tailwind frontend, FastAPI backend with async SQLAlchemy + JWT/MFA, PostgreSQL w/ pgvector, Redis, Vercel + Render deploy configs, LangChain + RAG scaffolding, CI/CD, env templates."
+Prompt 2 — Core Backend Implementation
+"Implement FastAPI backend: KYC, portfolios, transactions, simulations, compliance checks, broker/account aggregator adapters, embeddings into pgvector, hybrid retrieval, JWT auth + RBAC + MFA, WebSockets for portfolio updates, logging/telemetry."
+Prompt 3 — Frontend Components & UI
+"Build Next.js frontend: Wealth dashboard, Portfolio manager, Market intelligence console, Advisor CRM, Compliance reporting. Dark/light mode, real time updates, charts, WCAG 2.1 AA compliance."
+Prompt 4 — AI Integration & Features
+"Wire OpenAI + Claude via LangChain. Implement portfolio optimization, Monte Carlo + LLM reasoning, evidence linked buy/sell/hold recs, RAG over filings/news/regulations, compliance checks with explanations."
+Prompt 5 — Deployment & Optimization
+"Prepare for production: Vercel + Render configs, pgvector tuning, Redis for rate limiting/queues, full tests, OpenAPI docs, monitoring/alerts, backups + PITR, compliance guardrails, SLO dashboards."
+________________________________________
+Roadmap (90 Days)
+•	Day 30: GA for KYC, wealth dashboard, portfolio ingestion, basic AI Q&A.
+•	Day 60: Portfolio optimization engine, simulations, compliance reporting.
+•	Day 90: Broker execution hooks, advanced tax optimization, multi jurisdiction compliance modules.
+________________________________________
+One Slide Pitch
+What: AI powered financial advisory for individuals and institutions.
+Why now: Financial automation demand is surging; legacy advisors can’t scale.
+Moat: Evidence linked RAG insights + compliance first AI guardrails.
+CTA: “Point FinGenius at your accounts. Let your money grow intelligently.”
+
+
+
+
 
 FOLLOW THIS 8 STEP PLAN TO PREPARE THE INFRASTRUCTURE
 -----------------------------------------------------
